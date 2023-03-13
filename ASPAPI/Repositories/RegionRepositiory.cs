@@ -18,11 +18,16 @@ namespace ASPAPI.Repositories
         {
             return _db.Regions.ToList();
         }
-
         //取得所有清單的異步方法
         public async Task<IEnumerable<Region>> GetAllAsync()
         {
             return await _db.Regions.ToListAsync();
+        }
+
+        //依據Id獲取Region
+        public async Task<Region> GetRegionByIdAsync(Guid id) 
+        {
+            return await _db.Regions.SingleOrDefaultAsync(r => r.Id == id);
         }
     }
 }

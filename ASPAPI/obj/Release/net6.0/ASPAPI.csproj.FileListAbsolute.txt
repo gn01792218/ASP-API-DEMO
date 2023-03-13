@@ -1,0 +1,7 @@
+C:\Users\User\source\repos\ASPAPI\ASPAPI\obj\Release\net6.0\ASPAPI.csproj.AssemblyReference.cache
+C:\Users\User\source\repos\ASPAPI\ASPAPI\obj\Release\net6.0\ASPAPI.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\source\repos\ASPAPI\ASPAPI\obj\Release\net6.0\ASPAPI.AssemblyInfoInputs.cache
+C:\Users\User\source\repos\ASPAPI\ASPAPI\obj\Release\net6.0\ASPAPI.AssemblyInfo.cs
+C:\Users\User\source\repos\ASPAPI\ASPAPI\obj\Release\net6.0\ASPAPI.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\ASPAPI\ASPAPI\obj\Release\net6.0\ASPAPI.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\User\source\repos\ASPAPI\ASPAPI\obj\Release\net6.0\ASPAPI.MvcApplicationPartsAssemblyInfo.cache
