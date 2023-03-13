@@ -62,8 +62,8 @@ namespace ASPAPI.Controllers
             //1.RequestDTO to Domain model
             var region = new Models.Domain.Region()
             {
-                Name = addRegionRequest.Name,
                 Code = addRegionRequest.Code,
+                Name = addRegionRequest.Name,
                 Area = addRegionRequest.Area,  
                 Lat = addRegionRequest.Lat, 
                 Long = addRegionRequest.Long,   
@@ -90,6 +90,39 @@ namespace ASPAPI.Controllers
             //參數三 : respon 的東西
             return CreatedAtAction(nameof(GetRegionById), new { id = regionDTO.Id }, regionDTO);
         }
+        //修改
+        [HttpPut]
+        [Route("{id:guid}")] //id從URL拿
+        public async Task<IActionResult> UpdateRegionAsync([FromRoute]Guid id, [FromBody] UpdateRegionRequest updateRegion) //region從FromBody拿
+        {
+            //把updateRegion 還原成 Region
+            var region = new Models.Domain.Region() 
+            {
+                Code = updateRegion.Code,
+                Name = updateRegion.Name,
+                Area = updateRegion.Area,
+                Lat = updateRegion.Lat,
+                Long = updateRegion.Long,
+                Population = updateRegion.Population,
+            };
+            //向Repository要DB資料
+            region = await _regionRepository.UpdateRegionAsync(id, region);
+            if (region == null) return NotFound();
+            //轉換回DTO
+            var regionDTO = new Models.DTOs.Region() 
+            {
+                Id = region.Id,
+                Name = region.Name,
+                Code = region.Code,
+                Area = region.Area,
+                Lat = region.Lat,
+                Long = region.Long,
+                Population = region.Population,
+            };
+            return Ok(regionDTO);
+        }
+
+        //刪除
         [HttpDelete]
         [Route("{id:guid}")]
         public async Task<IActionResult> DeleteRegion(Guid id)

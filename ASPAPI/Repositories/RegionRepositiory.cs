@@ -1,5 +1,6 @@
 ﻿using ASPAPI.Data;
 using ASPAPI.Models.Domain;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace ASPAPI.Repositories
@@ -38,6 +39,24 @@ namespace ASPAPI.Repositories
             await _db.Regions.AddAsync(region);
             await _db.SaveChangesAsync();
             return region;
+        }
+
+        //修改
+        public async Task<Region> UpdateRegionAsync(Guid id , Region region)
+        {
+            var regionFromDb = await _db.Regions.FirstOrDefaultAsync(r => r.Id == id);
+            if (regionFromDb != null)
+            {
+                //_db.Regions.Update(region);
+                regionFromDb.Code = region.Code;
+                regionFromDb.Name = region.Name;
+                regionFromDb.Area = region.Area;
+                regionFromDb.Lat = region.Lat;
+                regionFromDb.Long = region.Long;
+                regionFromDb.Population = region.Population;
+                await _db.SaveChangesAsync();
+            }
+            return regionFromDb;
         }
 
         //刪除Region
