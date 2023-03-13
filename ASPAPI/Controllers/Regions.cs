@@ -17,10 +17,27 @@ namespace ASPAPI.Controllers
         }   
 
         [HttpGet]
-        public IActionResult GetAllRegions() 
+        public async Task<IActionResult> GetAllRegions() 
         {
-            var regions = _regionRepository.GetAll();
-            return Ok(regions);  //回傳一個 200 ok 的回應
+            var regions = await _regionRepository.GetAllAsync();
+
+            //轉化成DTO資料
+            var regionDTOs = new List<Models.DTOs.Region>();
+            regions.ToList().ForEach( r => 
+            {
+                var regionDTO = new Models.DTOs.Region() 
+                { 
+                    Id = r.Id ,
+                    Name = r.Name ,
+                    Code = r.Code ,
+                    Area = r.Area ,
+                    Lat = r.Lat ,
+                    Long = r.Long ,
+                    Population = r.Population , 
+                };
+                regionDTOs.Add(regionDTO);
+            });
+            return Ok(regionDTOs);  //回傳一個 200 ok 的回應
         }
     }
 }
