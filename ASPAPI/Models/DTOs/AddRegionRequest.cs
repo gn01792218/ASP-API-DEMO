@@ -1,8 +1,9 @@
 ﻿namespace ASPAPI.Models.DTOs
 {
-    public class Region
+    public class AddRegionRequest
     {
-        public Guid Id { get; set; }
+        //專門用來定義post方法時要接收的資料格式
+        //我們希望格式為除了id以外
         public string Code { get; set; }
         public string Name { get; set; }
         public double Area { get; set; }

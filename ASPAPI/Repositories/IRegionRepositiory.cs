@@ -12,5 +12,11 @@ namespace ASPAPI.Repositories
 
         //依據Id獲取Region
         Task<Region> GetRegionByIdAsync(Guid id);
+
+        //新增Region
+        Task<Region> AddRegionAsync(Region region);
+
+        //刪除Region
+        Task<Region> DeleteRegionAsync(Guid id);
     }
 }
