@@ -1,4 +1,6 @@
-﻿namespace ASPAPI.Models.Domain
+﻿using ASPAPI.Models.DTOs;
+
+namespace ASPAPI.Models.Domain
 {
     public class Region
     {
