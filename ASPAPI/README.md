@@ -11,3 +11,6 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 });
 
 ```
+
+# 優化
+## 1.把各個Repository的CRUD命名統一
