@@ -18,7 +18,7 @@ namespace ASPAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var walkDifficultys =await _walkDifficultyRepository.GetAllAsync();
+            var walkDifficultys = await _walkDifficultyRepository.GetAllAsync();
             //convert to DTO
             var DTOS = new List<Models.DTOs.WalkDifficulty>();
             walkDifficultys.ToList().ForEach(w =>
@@ -38,7 +38,7 @@ namespace ASPAPI.Controllers
         [ActionName(nameof(GetById))]
         public async Task<IActionResult> GetById(Guid id)
         {
-            var walkDifficulty =await _walkDifficultyRepository.GetByIdAsync(id);
+            var walkDifficulty = await _walkDifficultyRepository.GetByIdAsync(id);
             if (walkDifficulty == null) return NotFound();
             //conver to DTO
             var DTO = new Models.DTOs.WalkDifficulty()
@@ -50,7 +50,7 @@ namespace ASPAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddAsync([FromBody]AddWalkDifficultyRequest addWalkDifficultyRequest)
+        public async Task<IActionResult> AddAsync([FromBody] AddWalkDifficultyRequest addWalkDifficultyRequest)
         {
             var walkDifficulty = await _walkDifficultyRepository.AddAsync(addWalkDifficultyRequest);
             if (walkDifficulty == null) return NotFound();
@@ -60,11 +60,12 @@ namespace ASPAPI.Controllers
                 Id = walkDifficulty.Id,
                 Code = walkDifficulty.Code
             };
-            return CreatedAtAction(nameof(GetById),new {id = walkDifficulty.Id},DTO);
+            return CreatedAtAction(nameof(GetById), new { id = walkDifficulty.Id }, DTO);
         }
+
         [HttpPut]
         [Route("{id:guid}")]
-        public async Task<IActionResult> UpdateAsync([FromRoute]Guid id,[FromBody]UpdateWalkDifficultyRequest updateWalkDifficultyRequest)
+        public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromBody] UpdateWalkDifficultyRequest updateWalkDifficultyRequest)
         {
             var walkDifficulty = await _walkDifficultyRepository.UpdateAsync(id, updateWalkDifficultyRequest);
             if (walkDifficulty == null) return NotFound();
@@ -76,11 +77,12 @@ namespace ASPAPI.Controllers
             };
             return Ok(DTO);
         }
+
         [HttpDelete]
         [Route("{id:guid}")]
         public async Task<IActionResult> DeleteAsync(Guid id)
         {
-            var walkDifficulty =await _walkDifficultyRepository.DeleteAsync(id);
+            var walkDifficulty = await _walkDifficultyRepository.DeleteAsync(id);
             if (walkDifficulty == null) return NotFound();
 
             //convert to DTO

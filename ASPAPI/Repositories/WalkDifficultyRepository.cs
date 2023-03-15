@@ -20,8 +20,7 @@ namespace ASPAPI.Repositories
         }
         public async Task<WalkDifficulty> GetByIdAsync(Guid id)
         {
-            var walkDifficulty = await _db.WalkDifficulty.FirstOrDefaultAsync(x => x.Id == id);
-            return walkDifficulty;
+            return await _db.WalkDifficulty.FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<WalkDifficulty> AddAsync(Models.DTOs.AddWalkDifficultyRequest addWalkDifficulty)

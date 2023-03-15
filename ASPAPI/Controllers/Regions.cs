@@ -57,26 +57,30 @@ namespace ASPAPI.Controllers
         //因為由於我們希望由後端建立id
         //所以這裡要使用AddRegionRequest作為參數傳遞
         [HttpPost]
-        public async Task<IActionResult> AddRegion(AddRegionRequest addRegionRequest) 
+        public async Task<IActionResult> AddRegion(AddRegionRequest addRegionRequest)
         {
+            //validate
+            if (!VaildateAddRegionAsync(addRegionRequest)) return BadRequest(ModelState);
+
             //1.RequestDTO to Domain model
             var region = new Models.Domain.Region()
             {
                 Code = addRegionRequest.Code,
                 Name = addRegionRequest.Name,
-                Area = addRegionRequest.Area,  
-                Lat = addRegionRequest.Lat, 
-                Long = addRegionRequest.Long,   
+                Area = addRegionRequest.Area,
+                Lat = addRegionRequest.Lat,
+                Long = addRegionRequest.Long,
                 Population = addRegionRequest.Population,
             };
             //2.pass to Reposetory
             //AddRegionAsync() will return a Region
-            region =  await _regionRepository.AddRegionAsync(region);
+            region = await _regionRepository.AddRegionAsync(region);
 
             //3.Conver back to DTO
             var regionDTO = new Models.DTOs.Region()
             {
                 Id = region.Id,
+                Name = region.Name,
                 Code = region.Code,
                 Area = region.Area,
                 Lat = region.Lat,
@@ -93,10 +97,12 @@ namespace ASPAPI.Controllers
         //修改
         [HttpPut]
         [Route("{id:guid}")] //id從URL拿
-        public async Task<IActionResult> UpdateRegionAsync([FromRoute]Guid id, [FromBody] UpdateRegionRequest updateRegion) //region從FromBody拿
+        public async Task<IActionResult> UpdateRegionAsync([FromRoute] Guid id, [FromBody] UpdateRegionRequest updateRegion) //region從FromBody拿
         {
+            //validate
+            if (!VaildateUpdateRegionAsync(updateRegion)) return BadRequest(ModelState);
             //把updateRegion 還原成 Region
-            var region = new Models.Domain.Region() 
+            var region = new Models.Domain.Region()
             {
                 Code = updateRegion.Code,
                 Name = updateRegion.Name,
@@ -109,7 +115,7 @@ namespace ASPAPI.Controllers
             region = await _regionRepository.UpdateRegionAsync(id, region);
             if (region == null) return NotFound();
             //轉換回DTO
-            var regionDTO = new Models.DTOs.Region() 
+            var regionDTO = new Models.DTOs.Region()
             {
                 Id = region.Id,
                 Name = region.Name,
@@ -129,7 +135,7 @@ namespace ASPAPI.Controllers
         {
             //Get Region from db
             var region = await _regionRepository.DeleteRegionAsync(id);
-            if(region == null) return NotFound();
+            if (region == null) return NotFound();
 
             //Convert response back to DTO
             var regionDTO = new Models.DTOs.Region()
@@ -144,5 +150,82 @@ namespace ASPAPI.Controllers
             };
             return Ok(regionDTO);
         }
+
+        #region Private methods
+        private bool VaildateAddRegionAsync(AddRegionRequest addRegionRequest)
+        {
+            //檢查整個物件是否為空
+            if(addRegionRequest == null)
+            {
+                ModelState.AddModelError(nameof(addRegionRequest),
+                    $"Add Region Data is Require");
+                return false;
+            };
+            //檢查null和空白字元
+            if (string.IsNullOrWhiteSpace(addRegionRequest.Code))
+            {
+                //添加系統訊息
+                ModelState.AddModelError(nameof(addRegionRequest.Code), "Cannot be null or white space");
+            };
+            if (string.IsNullOrWhiteSpace(addRegionRequest.Name))
+            {
+                //添加系統訊息
+                ModelState.AddModelError(nameof(addRegionRequest.Name), "Cannot be null or white space");
+            };
+
+            //檢查數字
+            if(addRegionRequest.Area <= 0)
+            {
+                ModelState.AddModelError(nameof(addRegionRequest.Area),
+                    $"{nameof(addRegionRequest.Area)} cannot be less than or equal to zero");
+            };
+            if (addRegionRequest.Population <= 0)
+            {
+                ModelState.AddModelError(nameof(addRegionRequest.Population),
+                    $"{nameof(addRegionRequest.Population)} cannot be less than or equal to zero");
+            };
+
+            //最終返回
+            if (ModelState.ErrorCount > 0) return false;
+            return true;
+        }
+        private bool VaildateUpdateRegionAsync(UpdateRegionRequest updateRegionRequest)
+        {
+            //檢查整個物件是否為空
+            if (updateRegionRequest == null)
+            {
+                ModelState.AddModelError(nameof(updateRegionRequest),
+                    $"Add Region Data is Require");
+                return false;
+            };
+            //檢查null和空白字元
+            if (string.IsNullOrWhiteSpace(updateRegionRequest.Code))
+            {
+                //添加系統訊息
+                ModelState.AddModelError(nameof(updateRegionRequest.Code), "Cannot be null or white space");
+            };
+            if (string.IsNullOrWhiteSpace(updateRegionRequest.Name))
+            {
+                //添加系統訊息
+                ModelState.AddModelError(nameof(updateRegionRequest.Name), "Cannot be null or white space");
+            };
+
+            //檢查數字
+            if (updateRegionRequest.Area <= 0)
+            {
+                ModelState.AddModelError(nameof(updateRegionRequest.Area),
+                    $"{nameof(updateRegionRequest.Area)} cannot be less than or equal to zero");
+            };
+            if (updateRegionRequest.Population <= 0)
+            {
+                ModelState.AddModelError(nameof(updateRegionRequest.Population),
+                    $"{nameof(updateRegionRequest.Population)} cannot be less than or equal to zero");
+            };
+
+            //最終返回
+            if (ModelState.ErrorCount > 0) return false;
+            return true;
+        }
+        #endregion
     }
 }
