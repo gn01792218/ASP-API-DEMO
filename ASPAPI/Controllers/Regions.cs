@@ -59,9 +59,6 @@ namespace ASPAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> AddRegion(AddRegionRequest addRegionRequest)
         {
-            //validate
-            if (!VaildateAddRegionAsync(addRegionRequest)) return BadRequest(ModelState);
-
             //1.RequestDTO to Domain model
             var region = new Models.Domain.Region()
             {
@@ -99,8 +96,6 @@ namespace ASPAPI.Controllers
         [Route("{id:guid}")] //id從URL拿
         public async Task<IActionResult> UpdateRegionAsync([FromRoute] Guid id, [FromBody] UpdateRegionRequest updateRegion) //region從FromBody拿
         {
-            //validate
-            if (!VaildateUpdateRegionAsync(updateRegion)) return BadRequest(ModelState);
             //把updateRegion 還原成 Region
             var region = new Models.Domain.Region()
             {
@@ -150,82 +145,5 @@ namespace ASPAPI.Controllers
             };
             return Ok(regionDTO);
         }
-
-        #region Private methods
-        private bool VaildateAddRegionAsync(AddRegionRequest addRegionRequest)
-        {
-            //檢查整個物件是否為空
-            if(addRegionRequest == null)
-            {
-                ModelState.AddModelError(nameof(addRegionRequest),
-                    $"Add Region Data is Require");
-                return false;
-            };
-            //檢查null和空白字元
-            if (string.IsNullOrWhiteSpace(addRegionRequest.Code))
-            {
-                //添加系統訊息
-                ModelState.AddModelError(nameof(addRegionRequest.Code), "Cannot be null or white space");
-            };
-            if (string.IsNullOrWhiteSpace(addRegionRequest.Name))
-            {
-                //添加系統訊息
-                ModelState.AddModelError(nameof(addRegionRequest.Name), "Cannot be null or white space");
-            };
-
-            //檢查數字
-            if(addRegionRequest.Area <= 0)
-            {
-                ModelState.AddModelError(nameof(addRegionRequest.Area),
-                    $"{nameof(addRegionRequest.Area)} cannot be less than or equal to zero");
-            };
-            if (addRegionRequest.Population <= 0)
-            {
-                ModelState.AddModelError(nameof(addRegionRequest.Population),
-                    $"{nameof(addRegionRequest.Population)} cannot be less than or equal to zero");
-            };
-
-            //最終返回
-            if (ModelState.ErrorCount > 0) return false;
-            return true;
-        }
-        private bool VaildateUpdateRegionAsync(UpdateRegionRequest updateRegionRequest)
-        {
-            //檢查整個物件是否為空
-            if (updateRegionRequest == null)
-            {
-                ModelState.AddModelError(nameof(updateRegionRequest),
-                    $"Add Region Data is Require");
-                return false;
-            };
-            //檢查null和空白字元
-            if (string.IsNullOrWhiteSpace(updateRegionRequest.Code))
-            {
-                //添加系統訊息
-                ModelState.AddModelError(nameof(updateRegionRequest.Code), "Cannot be null or white space");
-            };
-            if (string.IsNullOrWhiteSpace(updateRegionRequest.Name))
-            {
-                //添加系統訊息
-                ModelState.AddModelError(nameof(updateRegionRequest.Name), "Cannot be null or white space");
-            };
-
-            //檢查數字
-            if (updateRegionRequest.Area <= 0)
-            {
-                ModelState.AddModelError(nameof(updateRegionRequest.Area),
-                    $"{nameof(updateRegionRequest.Area)} cannot be less than or equal to zero");
-            };
-            if (updateRegionRequest.Population <= 0)
-            {
-                ModelState.AddModelError(nameof(updateRegionRequest.Population),
-                    $"{nameof(updateRegionRequest.Population)} cannot be less than or equal to zero");
-            };
-
-            //最終返回
-            if (ModelState.ErrorCount > 0) return false;
-            return true;
-        }
-        #endregion
     }
 }

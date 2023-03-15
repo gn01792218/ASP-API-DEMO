@@ -127,21 +127,6 @@ namespace ASPAPI.Controllers
         #region Pravate methods
         private async Task<bool> ValidateAddRequest(AddWalkRequest addWalkRequest)
         {
-            if (addWalkRequest == null)
-            {
-                ModelState.AddModelError(nameof(addWalkRequest), $"{nameof(addWalkRequest)} is required");
-                return false;
-            }
-            if(string.IsNullOrWhiteSpace(addWalkRequest.Name))
-            {
-                ModelState.AddModelError(nameof(addWalkRequest.Name),
-                    $"{nameof(addWalkRequest.Name)} cannot be null or space");
-            }
-            if (addWalkRequest.Length <= 0)
-            {
-                ModelState.AddModelError(nameof(addWalkRequest.Length),
-                    $"{nameof(addWalkRequest.Length)} must greater than zero");
-            }
             //驗證關聯資料表的ID(請先依賴注入)
             var region =await _regionRepositiory.GetRegionByIdAsync(addWalkRequest.RegionId);
             if(region == null) 
@@ -161,21 +146,6 @@ namespace ASPAPI.Controllers
         }
         private async Task<bool> ValidateUpdateRequest(UpdateWalkRequest updateWalkRequest)
         {
-            if (updateWalkRequest == null)
-            {
-                ModelState.AddModelError(nameof(updateWalkRequest), $"{nameof(updateWalkRequest)} is required");
-                return false;
-            }
-            if (string.IsNullOrWhiteSpace(updateWalkRequest.Name))
-            {
-                ModelState.AddModelError(nameof(updateWalkRequest.Name),
-                    $"{nameof(updateWalkRequest.Name)} cannot be null or space");
-            }
-            if (updateWalkRequest.Length <= 0)
-            {
-                ModelState.AddModelError(nameof(updateWalkRequest.Length),
-                    $"{nameof(updateWalkRequest.Length)} must greater than zero");
-            }
             //驗證關聯資料表的ID(請先依賴注入)
             var region = await _regionRepositiory.GetRegionByIdAsync(updateWalkRequest.RegionId);
             if (region == null)
