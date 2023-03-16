@@ -1,5 +1,6 @@
 ﻿using ASPAPI.Models.DTOs;
 using ASPAPI.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +8,7 @@ namespace ASPAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize] //需要JWT驗證
     public class WalkDifficultys : ControllerBase
     {
         private readonly IWalkDifficultyRepository _walkDifficultyRepository;

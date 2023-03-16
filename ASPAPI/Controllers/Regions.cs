@@ -1,6 +1,7 @@
 ﻿using ASPAPI.Models.Domain;
 using ASPAPI.Models.DTOs;
 using ASPAPI.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,6 +9,7 @@ namespace ASPAPI.Controllers
 {
     [Route("api/[controller]")] //API URL [controller] 最自動抓這個Controll名稱"Regions"
     [ApiController]  //宣告這個Controller是API的
+    [Authorize] //全部需要JWT驗證
     public class Regions : ControllerBase
     {
         //依賴注入_regionRepository

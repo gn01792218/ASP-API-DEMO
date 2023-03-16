@@ -1,12 +1,14 @@
 ﻿using ASPAPI.Models.Domain;
 using ASPAPI.Models.DTOs;
 using ASPAPI.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ASPAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize] //需要JWT驗證
     public class Walks : ControllerBase
     {
         //依賴注入Repository
