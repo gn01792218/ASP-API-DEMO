@@ -9,7 +9,7 @@ namespace ASPAPI.Controllers
 {
     [Route("api/[controller]")] //API URL [controller] 最自動抓這個Controll名稱"Regions"
     [ApiController]  //宣告這個Controller是API的
-    [Authorize] //全部需要JWT驗證
+    [Authorize(Roles ="reader")] //全部需要JWT驗證，且要有reader的權限
     public class Regions : ControllerBase
     {
         //依賴注入_regionRepository
@@ -59,6 +59,7 @@ namespace ASPAPI.Controllers
         //因為由於我們希望由後端建立id
         //所以這裡要使用AddRegionRequest作為參數傳遞
         [HttpPost]
+        [Authorize(Roles = "writer")] //需要JWT驗證，且要有writer的權限
         public async Task<IActionResult> AddRegion(AddRegionRequest addRegionRequest)
         {
             //1.RequestDTO to Domain model
@@ -96,6 +97,7 @@ namespace ASPAPI.Controllers
         //修改
         [HttpPut]
         [Route("{id:guid}")] //id從URL拿
+        [Authorize(Roles = "writer")] //需要JWT驗證，且要有writer的權限
         public async Task<IActionResult> UpdateRegionAsync([FromRoute] Guid id, [FromBody] UpdateRegionRequest updateRegion) //region從FromBody拿
         {
             //把updateRegion 還原成 Region
@@ -128,6 +130,7 @@ namespace ASPAPI.Controllers
         //刪除
         [HttpDelete]
         [Route("{id:guid}")]
+        [Authorize(Roles = "writer")] //需要JWT驗證，且要有writer的權限
         public async Task<IActionResult> DeleteRegion(Guid id)
         {
             //Get Region from db

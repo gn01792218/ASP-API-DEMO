@@ -8,7 +8,7 @@ namespace ASPAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize] //需要JWT驗證
+    [Authorize(Roles = "reader")] //全部需要JWT驗證，且要有reader的權限
     public class WalkDifficultys : ControllerBase
     {
         private readonly IWalkDifficultyRepository _walkDifficultyRepository;
@@ -52,6 +52,7 @@ namespace ASPAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "writer")] //需要JWT驗證，且要有writer的權限
         public async Task<IActionResult> AddAsync([FromBody] AddWalkDifficultyRequest addWalkDifficultyRequest)
         {
             var walkDifficulty = await _walkDifficultyRepository.AddAsync(addWalkDifficultyRequest);
@@ -67,6 +68,7 @@ namespace ASPAPI.Controllers
 
         [HttpPut]
         [Route("{id:guid}")]
+        [Authorize(Roles = "writer")] //需要JWT驗證，且要有writer的權限
         public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromBody] UpdateWalkDifficultyRequest updateWalkDifficultyRequest)
         {
             var walkDifficulty = await _walkDifficultyRepository.UpdateAsync(id, updateWalkDifficultyRequest);
@@ -82,6 +84,7 @@ namespace ASPAPI.Controllers
 
         [HttpDelete]
         [Route("{id:guid}")]
+        [Authorize(Roles = "writer")] //需要JWT驗證，且要有writer的權限
         public async Task<IActionResult> DeleteAsync(Guid id)
         {
             var walkDifficulty = await _walkDifficultyRepository.DeleteAsync(id);

@@ -8,7 +8,7 @@ namespace ASPAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize] //需要JWT驗證
+    [Authorize(Roles = "reader")] //全部需要JWT驗證，且要有reader的權限
     public class Walks : ControllerBase
     {
         //依賴注入Repository
@@ -64,7 +64,9 @@ namespace ASPAPI.Controllers
             };
             return Ok(DTO);
         }
+
         [HttpPost]
+        [Authorize(Roles = "writer")] //需要JWT驗證，且要有writer的權限
         public async Task<IActionResult> AddWalk([FromBody]AddWalkRequest walkRequest)
         {
             if (!await ValidateAddRequest(walkRequest)) return BadRequest(ModelState);
@@ -93,6 +95,7 @@ namespace ASPAPI.Controllers
 
         [HttpPut]
         [Route("{id:guid}")]
+        [Authorize(Roles = "writer")] //需要JWT驗證，且要有writer的權限
         public async Task<IActionResult> UpdateWalk([FromRoute]Guid id, [FromBody]UpdateWalkRequest updateWalkRequest)
         {
             if (!await ValidateUpdateRequest(updateWalkRequest)) return BadRequest(ModelState);
@@ -111,6 +114,7 @@ namespace ASPAPI.Controllers
         }
         [HttpDelete]
         [Route("{id:guid}")]
+        [Authorize(Roles = "writer")] //需要JWT驗證，且要有writer的權限
         public async Task<IActionResult> DeleteWalk(Guid id)
         {
             var walk =await _walkRepository.DeleteAsync(id);
@@ -126,6 +130,7 @@ namespace ASPAPI.Controllers
             };
             return Ok(DTO);
         }
+
         #region Pravate methods
         private async Task<bool> ValidateAddRequest(AddWalkRequest addWalkRequest)
         {
