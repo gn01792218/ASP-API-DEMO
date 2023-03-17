@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ASPAPI.Models.Domain
 {
@@ -10,7 +11,11 @@ namespace ASPAPI.Models.Domain
         public string Password { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public List<string> Roles { get; set; }
+
+        [NotMapped] //使用這個才會忽略沒有primary key
+        public List<string> Roles { get; set; } //單純裝UserRole的陣列，如果前端有需要的話
+        //關聯表
+        public List<User_Role> UserRoles { get; set; }
 
     }
 }

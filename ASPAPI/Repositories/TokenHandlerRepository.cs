@@ -23,7 +23,6 @@ namespace ASPAPI.Repositories
             claims.Add(new Claim(ClaimTypes.GivenName,user.FirstName));
             claims.Add(new Claim(ClaimTypes.Surname, user.LastName));
             claims.Add(new Claim(ClaimTypes.Email, user.EmailAddress));
-            claims.Add(new Claim(ClaimTypes.Surname, user.LastName));
             user.Roles.ForEach(role =>
             {
                 claims.Add(new Claim(ClaimTypes.Role, role));
