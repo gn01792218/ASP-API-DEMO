@@ -25,15 +25,15 @@ namespace ASPAPI.Repositories
             if (userRoles.Any())  //檢查userRoles是否為空
             {
                 user.Roles = new List<string>();
-                userRoles.ForEach(async userRole => 
+                foreach (var userRole in userRoles)
                 {
                     var role = await _db.Roles.FirstOrDefaultAsync(r => r.Id == userRole.RoleId);
                     //假如有role,加進User中
-                    if(role != null) 
+                    if (role != null)
                     {
                         user.Roles.Add(role.Name);
                     };
-                });
+                }
             }
 
             user.Password = null;  //記得把密碼設為null，不要傳出去

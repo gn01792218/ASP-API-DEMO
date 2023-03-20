@@ -50,7 +50,7 @@ namespace ASPAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Regions");
+                    b.ToTable("Regions", (string)null);
                 });
 
             modelBuilder.Entity("ASPAPI.Models.Domain.Role", b =>
@@ -65,7 +65,7 @@ namespace ASPAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Roles", (string)null);
                 });
 
             modelBuilder.Entity("ASPAPI.Models.Domain.User", b =>
@@ -96,7 +96,7 @@ namespace ASPAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("ASPAPI.Models.Domain.User_Role", b =>
@@ -117,7 +117,7 @@ namespace ASPAPI.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("User_Roles");
+                    b.ToTable("User_Roles", (string)null);
                 });
 
             modelBuilder.Entity("ASPAPI.Models.Domain.Walk", b =>
@@ -145,7 +145,7 @@ namespace ASPAPI.Migrations
 
                     b.HasIndex("WalkDifficultyId");
 
-                    b.ToTable("Walks");
+                    b.ToTable("Walks", (string)null);
                 });
 
             modelBuilder.Entity("ASPAPI.Models.Domain.WalkDifficulty", b =>
@@ -160,7 +160,7 @@ namespace ASPAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("WalkDifficulty");
+                    b.ToTable("WalkDifficulty", (string)null);
                 });
 
             modelBuilder.Entity("ASPAPI.Models.Domain.User_Role", b =>
